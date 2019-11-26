@@ -3,7 +3,7 @@ import scipy
 from scipy import integrate
 import numpy, scipy.io
 
-X_train = np.load('data/X_train.npy')
+# X_train = np.load('data/X_train.npy')
 
 def generate_orth(n, m):
     X = np.random.normal(0,1,(n,m))
