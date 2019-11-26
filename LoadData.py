@@ -42,14 +42,14 @@ Sc = np.zeros([k, numTR])
 Sh = np.zeros([k, numTR])
 covScVals = np.random.rand(k) / Scovrange
 covShVals = np.random.rand(k) / Scovrange
-Wc = np.zeros([numPatients, numVoxel, k])
-rhoc = np.random.rand(numPatients) / rhorange
-Wh = np.zeros([numPatients, numVoxel, k])
-rhoh = np.random.rand(numPatients) / rhorange
-Xc = np.zeros([numPatients, numVoxel, numTR])
-Xchat = np.zeros([numPatients, numVoxel, numTR])
-Xh = np.zeros([numPatients, numVoxel, numTR])
-Xhhat = np.zeros([numPatients, numVoxel, numTR])
+Wc = np.zeros([numSchz, numVoxel, k])
+rhoc = np.random.rand(numSchz) / rhorange
+Wh = np.zeros([numHlth, numVoxel, k])
+rhoh = np.random.rand(numHlth) / rhorange
+Xc = np.zeros([numSchz, numVoxel, numTR])
+Xchat = np.zeros([numSchz, numVoxel, numTR])
+Xh = np.zeros([numHlth, numVoxel, numTR])
+Xhhat = np.zeros([numHlth, numVoxel, numTR])
 
 
 #generating S
