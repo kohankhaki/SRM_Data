@@ -3,8 +3,6 @@ import scipy
 from scipy import integrate
 import numpy, scipy.io
 
-# X_train = np.load('data/X_train.npy')
-
 def generate_orth(n, m):
     X = np.random.normal(0,1,(n,m))
     if n < m:
@@ -23,8 +21,8 @@ numVoxel = 20
 k = 7
 Srange = 100
 Wrange = 100
-Scovrange = 15
-rhorange = 25
+Scovscale = 15
+rhoscale = 25
 
 #file names
 relative_address = 'Generated Data/'
@@ -40,17 +38,16 @@ Xhhat_file_name = 'Xhhat_data.npy'
 #initialization
 Sc = np.zeros([k, numTR])
 Sh = np.zeros([k, numTR])
-covScVals = np.random.rand(k) / Scovrange
-covShVals = np.random.rand(k) / Scovrange
+covScVals = np.random.rand(k) / Scovscale
+covShVals = np.random.rand(k) / Scovscale
 Wc = np.zeros([numSchz, numVoxel, k])
-rhoc = np.random.rand(numSchz) / rhorange
+rhoc = np.random.rand(numSchz) / rhoscale
 Wh = np.zeros([numHlth, numVoxel, k])
-rhoh = np.random.rand(numHlth) / rhorange
+rhoh = np.random.rand(numHlth) / rhoscale
 Xc = np.zeros([numSchz, numVoxel, numTR])
 Xchat = np.zeros([numSchz, numVoxel, numTR])
 Xh = np.zeros([numHlth, numVoxel, numTR])
 Xhhat = np.zeros([numHlth, numVoxel, numTR])
-
 
 #generating S
 meanSc = np.zeros(k)
@@ -98,13 +95,4 @@ np.save(relative_address + Xc_file_name, Xc)
 np.save(relative_address + Xh_file_name, Xh)
 np.save(relative_address + Xchat_file_name, Xchat)
 np.save(relative_address + Xhhat_file_name, Xhhat)
-#generate training set and test set
-#here we should generate train and test set (and also labels) with the help of generated.
-#save half of the generated data in one file for example.
 
-#generate any data needed to use here.
-data = []
-for i in range(numSchz):
-    data.append(Xc[i])
-
-scipy.io.savemat(relative_address + 'data.mat', mdict={'data': data})
