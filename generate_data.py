@@ -19,8 +19,8 @@ numPatients = numSchz + numHlth
 numTR = 100
 numVoxel = 20
 k = 7
-Srange = 100
-Wrange = 100
+mucRange = 100
+muhRange = 100
 Scovscale = 15
 rhoscale = 25
 
@@ -44,8 +44,10 @@ Wc = np.zeros([numSchz, numVoxel, k])
 rhoc = np.random.rand(numSchz) / rhoscale
 Wh = np.zeros([numHlth, numVoxel, k])
 rhoh = np.random.rand(numHlth) / rhoscale
+muc = np.zeros([numSchz, numVoxel, numTR])
 Xc = np.zeros([numSchz, numVoxel, numTR])
 Xchat = np.zeros([numSchz, numVoxel, numTR])
+muh = np.zeros([numHlth, numVoxel, numTR])
 Xh = np.zeros([numHlth, numVoxel, numTR])
 Xhhat = np.zeros([numHlth, numVoxel, numTR])
 
@@ -55,34 +57,38 @@ covSc = covScVals * np.eye(k)
 meanSh = np.zeros(k)
 covSh = covShVals * np.eye(k)
 for i in range(numTR):
-    Sc[:, i] = np.random.multivariate_normal(meanSc, covSc, 1) * Srange
-    Sh[:, i] = np.random.multivariate_normal(meanSh, covSh, 1) * Srange
+    Sc[:, i] = np.random.multivariate_normal(meanSc, covSc, 1)
+    Sh[:, i] = np.random.multivariate_normal(meanSh, covSh, 1)
 
 #generating W
 for i in range(numSchz):
-    Wc[i] = generate_orth(numVoxel, k) * Wrange
+    Wc[i] = generate_orth(numVoxel, k)
 for i in range(numHlth):
-    Wh[i] = generate_orth(numVoxel, k) * Wrange
+    Wh[i] = generate_orth(numVoxel, k)
+
+#generating mu
+muc = np.ones([numSchz, numVoxel, numTR]) * mucRange
+muh = np.ones([numHlth, numVoxel, numTR]) * muhRange
 
 #generating X
 for i in range(numSchz):
     for t in range(numTR):
-        Xc[i, :, t] = np.dot(Wc[i], Sc[:, t])
+        Xc[i, :, t] = np.dot(Wc[i], Sc[:, t]) + muc[i, :, t]
 
 for i in range(numHlth):
     for t in range(numTR):
-        Xh[i, :, t] = np.dot(Wh[i], Sh[:, t])
+        Xh[i, :, t] = np.dot(Wh[i], Sh[:, t]) + muh[i, :, t]
 
 #generating Xhat
 for i in range(numSchz):
     for t in range(numTR):
-        mean = np.dot(Wc[i], Sc[:, t])
+        mean = np.dot(Wc[i], Sc[:, t]) + muc[i, :, t]
         cov = rhoc[i] ** 2 * np.eye(numVoxel)
         Xchat[i, :, t] = np.random.multivariate_normal(mean, cov, 1)
 
 for i in range(numHlth):
     for t in range(numTR):
-        mean = np.dot(Wh[i], Sh[:, t])
+        mean = np.dot(Wh[i], Sh[:, t]) + muh[i, :, t]
         cov = rhoh[i] ** 2 * np.eye(numVoxel)
         Xhhat[i, :, t] = np.random.multivariate_normal(mean, cov, 1)
 

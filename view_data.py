@@ -12,4 +12,15 @@ data2W = data2['W']
 dataRW = np.load('/Users/farnazkohankhaki/PycharmProjects/SRM_Data/Generated Simple Data/Wh_data.npy')
 dataRS = np.load('/Users/farnazkohankhaki/PycharmProjects/SRM_Data/Generated Simple Data/Sh_data.npy')
 
+
+dataSS = sum(data1S)
+plt.plot(dataSS)
+plt.show()
+
+
+
+dataSS2 = sum(data2S)
+plt.plot(dataSS2)
+plt.show()
+
 print("hi")
